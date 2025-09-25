@@ -17,6 +17,7 @@ venv/
 *.parquet
 *.db
 *.sqlite
+data/
 
 # ML models
 predictor/saved_models/
