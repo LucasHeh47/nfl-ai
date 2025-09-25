@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pyo
+*.parquet
+*.csv
+*.db
+*.sqlite
+venv/
+.venv/
+.env
+*.log
+predictor/saved_models/
+web/static/images/logos/

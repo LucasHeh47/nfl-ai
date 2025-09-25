@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="row g-4">
+    <div class="col-12">
+      <h1 class="display-6 mb-1">Dashboard</h1>
+      <p class="text-secondary">Clean UI around your existing data tools.</p>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title"><i class="fa-solid fa-cloud-arrow-down"></i> Load Data</h5>
+          <p class="card-text">Fetch a season and slice into per-team bundles.</p>
+          <a class="btn btn-warning" href="{{ url_for('load_view') }}">Open loader</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title"><i class="fa-solid fa-magnifying-glass-chart"></i> Query Stat</h5>
+          <p class="card-text">Pick a team, stat, and week (or all) to view values.</p>
+          <a class="btn btn-primary" href="{{ url_for('stat_view') }}">Open query</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title"><i class="fa-solid fa-ranking-star"></i> Rank Stats</h5>
+          <p class="card-text">Rank all teams on a stat for a given week or season.</p>
+          <a class="btn btn-success" href="{{ url_for('rank_view') }}">Open rankings</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card h-100 shadow-sm">
+        <div class="card-body">
+        <h5 class="card-title"><i class="fa-solid fa-crystal-ball"></i> Predict</h5>
+        <p class="card-text">Pick a season and week, choose a model, and generate game predictions.</p>
+        <a class="btn btn-info" href="{{ url_for('predict_view') }}">Open predict</a>
+        </div>
+    </div>
+  </div>
+
+
+  {% if not has_data %}
+  <div class="alert alert-info mt-4">
+    No team bundles found yet. Click <b>Load Data</b> to fetch a season.
+  </div>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2 class="mb-3">Query Stat</h2>
+
+  <form method="post" class="card p-3 mb-4 shadow-sm">
+    <div class="row g-3">
+      <div class="col-md-3">
+        <label class="form-label">Team</label>
+        <select class="form-select" name="team" required>
+          {% for t in teams %}
+            <option value="{{ t }}">{{ t }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-md-5">
+        <label class="form-label">Stat</label>
+        <select class="form-select" name="stat">
+          {% for s in stats %}
+            {% set pretty = s.replace('_', ' ').title() %}
+            <option value="{{ s }}" {% if s == stat %}selected{% endif %}>{{ pretty }}</option>
+          {% endfor %}
+        </select>
+        <div class="form-text">Numeric columns auto-discovered from team_stats.</div>
+      </div>
+
+      <div class="col-md-2">
+        <label class="form-label">Week</label>
+        <select class="form-select" name="week">
+          <option value="all" selected>All</option>
+          {% for w in weeks %}
+            <option value="{{ w }}">{{ w }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-md-2 d-flex align-items-end">
+        <button class="btn btn-primary w-100" type="submit">
+          <i class="fa-solid fa-chart-simple"></i> Run
+        </button>
+      </div>
+    </div>
+  </form>
+
+  {% if result %}
+    <div class="card result-card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title mb-1">{{ result.team }} — {{ result.stat }}</h5>
+        {% if context_bits %}
+          <div class="text-secondary small mb-2">{{ ", ".join(context_bits) }}</div>
+        {% endif %}
+        <div class="display-5 fw-bold">{{ result.value }}</div>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}

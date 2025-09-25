@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2 class="mb-3">Load Data</h2>
+  <form method="post" class="card p-3 shadow-sm" onsubmit="this.querySelector('button[type=submit]').disabled=true;">
+    <div class="row g-3 align-items-end">
+      <div class="col-sm-4">
+        <label for="season" class="form-label">Season</label>
+        <input type="number" class="form-control" id="season" name="season" value="2025" min="1999" max="2099">
+      </div>
+      <div class="col-sm-8">
+        <button type="submit" class="btn btn-warning mt-3 mt-sm-0">
+          <i class="fa-solid fa-cloud-arrow-down"></i> Load & Slice
+        </button>
+      </div>
+    </div>
+    <div class="form-text mt-2">
+      Runs your loader and writes <code>./data/TEAM.zip</code> for all teams.
+    </div>
+  </form>
+{% endblock %}

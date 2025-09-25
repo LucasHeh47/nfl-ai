@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    <h3 class="card-title mb-3">Train Model</h3>
+    {% if note %}
+      <div class="alert {{ ok and 'alert-success' or 'alert-danger' }}" role="alert">
+        {{ note }}
+      </div>
+    {% endif %}
+
+    <form method="post" class="row g-3">
+      <div class="col-md-2">
+        <label class="form-label">Season</label>
+        <input class="form-control" type="number" name="season" value="{{ season }}">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Through Week</label>
+        <input class="form-control" type="number" name="through_week" value="{{ through_week }}">
+        <div class="form-text">Train using weeks 1..N (predict N+1).</div>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Model Name</label>
+        <input class="form-control" type="text" name="name" value="{{ name }}">
+        <div class="form-text">Defaults to lr_&lt;season&gt;_w&lt;N&gt; if left blank.</div>
+      </div>
+      <div class="col-12 mt-2">
+        <button class="btn btn-primary" type="submit">Start Training</button>
+        <a class="btn btn-secondary" href="{{ url_for('predict_view') }}">Back to Predict</a>
+      </div>
+    </form>
+
+    <hr class="my-4">
+
+    <p class="text-muted small">
+      This runs: refresh schedules → build features → train → promote to <code>saved_models/current</code>.
+      The Predict page always uses the <em>current</em> model.
+    </p>
+  </div>
+</div>
+{% endblock %}

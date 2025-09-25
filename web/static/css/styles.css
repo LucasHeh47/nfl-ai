@@ -1,0 +1,14 @@
+/* Subtle polish */
+.result-card {
+  border-left: 4px solid #0d6efd;
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  background: var(--bs-body-bg);
+}
+
+footer {
+  background: rgba(255,255,255,0.02);
+}

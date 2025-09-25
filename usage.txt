@@ -1,0 +1,10 @@
+python app.py arg args
+
+all args:
+    load
+        season (int)
+    
+    stat
+        team (str)
+
+    rank

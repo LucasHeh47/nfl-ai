@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2 class="mb-3">Predict Games</h2>
+
+  <form method="post" class="card p-3 mb-4 shadow-sm">
+    <div class="row g-3">
+      <div class="col-md-3">
+        <label class="form-label">Season</label>
+        <input type="number" class="form-control" name="season" value="2025" min="1999" max="2099" required>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label">Week</label>
+        <input type="number" class="form-control" name="week" value="1" min="1" max="22" required>
+        <div class="form-text">Regular season weeks are usually 1–18.</div>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label">Model</label>
+        <select class="form-select" name="model">
+          <option value="">(current) {{ model_label }}</option>
+          {% for m in models %}
+            <option value="{{ m }}" {% if m == selected_model %}selected{% endif %}>{{ m }}</option>
+          {% endfor %}
+        </select>
+        <div class="form-text">Leave blank to use the current model.</div>
+      </div>
+
+
+
+      <div class="col-md-3 d-flex align-items-end">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="explain" name="explain">
+          <label class="form-check-label" for="explain">LLM explanations</label>
+        </div>
+      </div>
+
+      <a href="{{ url_for('train_view') }}" class="btn btn-outline-info btn-sm ms-2">Train Model</a>
+
+      <div class="col-12 d-flex justify-content-end">
+        <button class="btn btn-info">
+          <i class="fa-solid fa-crystal-ball"></i> Predict
+        </button>
+      </div>
+    </div>
+  </form>
+
+  {% if games %}
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Predictions — Season {{ season }}, Week {{ week }} (Model: {{ model|upper }})</h5>
+        {% if note %}<div class="alert alert-secondary small">{{ note }}</div>{% endif %}
+
+        <div class="table-responsive">
+            <table class="table table-sm table-striped align-middle">
+                <thead>
+                <tr>
+                    <th>Matchup</th>
+                    <th>Home Win %</th>
+                    <th>Pred Margin</th>
+                    <th>Projected Winner</th>
+                    <th>Rationale</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for g in games %}
+                    <tr>
+                    <td><b>{{ g.away }}</b> @ {{ g.home }}</td>
+                    <td>
+                        {{ g.home_win_pct is not none and ('%0.1f%%' % (100*g.home_win_pct)) or '—' }}
+                    </td>
+                    <td>
+                        {{ g.pred_margin is not none and ('%0.1f' % g.pred_margin) or '—' }}
+                    </td>
+                    <td>
+                        {% if g.home_win_pct is not none %}
+                        {% if g.home_win_pct > 0.5 %}
+                            {{ g.home }}
+                        {% else %}
+                            {{ g.away }}
+                        {% endif %}
+                        {% else %}
+                        —
+                        {% endif %}
+                    </td>
+                    <td class="small">{{ g.explain or '' }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="text-end">
+          <form method="post">
+            <input type="hidden" name="season" value="{{ season }}">
+            <input type="hidden" name="week" value="{{ week }}">
+            <input type="hidden" name="model" value="{{ model }}">
+            <input type="hidden" name="explain" value="{{ 'on' if explain else '' }}">
+            <button class="btn btn-outline-secondary btn-sm" name="export" value="csv" formaction="{{ url_for('predict_view') }}">
+              <i class="fa-regular fa-file"></i> Export CSV
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}
