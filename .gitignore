@@ -1,13 +1,33 @@
+# Python
 __pycache__/
 *.pyc
 *.pyo
-*.parquet
-*.csv
-*.db
-*.sqlite
+*.pyd
+
+# Virtual environments
 venv/
 .venv/
 .env
+
+# Logs
 *.log
+
+# Data artifacts
+*.csv
+*.parquet
+*.db
+*.sqlite
+
+# ML models
 predictor/saved_models/
+
+# Static assets (logos/images you don’t want to bloat repo)
 web/static/images/logos/
+
+# OS / IDE files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
