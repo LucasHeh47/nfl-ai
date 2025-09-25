@@ -8,3 +8,8 @@ all args:
         team (str)
 
     rank
+
+
+
+web app:
+    inside root dir: python -m web.app
